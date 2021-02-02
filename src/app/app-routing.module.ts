@@ -6,7 +6,7 @@ import { RectiveComponent } from './pages/rective/rective.component';
 const routes: Routes = [
   {path: 'template', component: TemplateComponent},
   {path: 'reactive', component: RectiveComponent},
-  {path: '**', pathMatch: 'full', redirectTo: 'template'}
+  {path: '**', pathMatch: 'full', redirectTo: 'reactive'}
 ];
 
 @NgModule({
