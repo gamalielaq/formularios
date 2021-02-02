@@ -1,0 +1,62 @@
+<h4>Formularios <small> Formularios por Template </small></h4> <a [routerLink]="[ '/reactive']">Reactive</a>
+<hr>
+<form autocomplete="off" (ngSubmit)="guardar(forma)" #forma="ngForm">
+    <div class="row">
+        <div class="col-7">
+            <div class="mb-3 row">
+                <label for="staticEmail" class="col-sm-2 col-form-label">Nombre</label>
+                <div class="col-sm-10">
+                    <input class="form-control"
+                    type="text"
+                    name="nombre"
+                    [class.is-invalid] ="nombre.invalid && nombre.touched"
+                    placeholder="Nombre"
+                    [ngModel] = "usuario.nombre"
+                    required
+                    minlength="5"
+                    #nombre="ngModel"
+                    >
+                    <small *ngIf="nombre.invalid && nombre.touched" class="form-text text-danger">Ingrese 5 letras</small>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Apellido</label>
+                <div class="col-sm-10">
+                    <input class="form-control"
+                    type="text"
+                    name="apellido"
+                    [class.is-invalid] ="apellido.invalid && apellido.touched"
+                    placeholder="Apellido"
+                    [ngModel]="usuario.apellido" 
+                    required
+                    #apellido="ngModel"
+                    >
+                    <small *ngIf="apellido.invalid && apellido.touched" class="form-text text-danger">Ingrese Apellido</small>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Correo</label>
+                <div class="col-sm-10">
+                    <input class="form-control"
+                    type="text" 
+                    name="correo"
+                    [class.is-invalid] ="correo.invalid && correo.touched"
+                    [ngModel]="usuario.correo" 
+                    required
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                    #correo="ngModel"
+                    >
+                    <small *ngIf="correo.invalid && correo.touched" class="form-text text-danger">El correo es obligatorio</small>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">&nbsp;</label>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-outline-primary btn-block w-100">
+                        Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
