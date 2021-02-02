@@ -50,6 +50,48 @@
                 </div>
             </div>
             <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Pais</label>
+                <div class="col-sm-10">
+                    <select class="form-select"
+                    name="pais"
+                    [class.is-invalid] ="pais.invalid && pais.touched"
+                    [ngModel]="usuario.pais"
+                    required
+                    [disabled]="paises.length === 0"
+                    #pais="ngModel">
+                        <option *ngFor="let pais of paises" [value]="pais.codigo">{{pais.nombre}}</option>
+                    </select>
+                    <small *ngIf="pais.invalid && pais.touched" class="form-text text-danger">El Pais es obligatorio</small>
+                </div>
+            </div>     
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Pais</label>
+                <div class="col-sm-10">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input"
+                        type="radio"
+                        name="genero"
+                        [class.is-invalid] ="genero.invalid && genero.touched"
+                        [ngModel]="usuario.genero"
+                        required
+                        value="M"
+                        #genero="ngModel">
+                        <label class="form-check-label">Mas Culino</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input"
+                        type="radio"
+                        name="genero"
+                        [class.is-invalid] ="genero.invalid && genero.touched"
+                        [ngModel]="usuario.genero"
+                        required
+                        value="F"
+                        #genero="ngModel">
+                        <label class="form-check-label">Femenino</label>
+                    </div>
+                </div> 
+            </div>
+            <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label">&nbsp;</label>
                 <div class="col-sm-10">
                     <button type="submit" class="btn btn-outline-primary btn-block w-100">
