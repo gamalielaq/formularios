@@ -3,29 +3,107 @@
 <form autocomplete="off" [formGroup]="form" (ngSubmit)="guardar()">
     <div class="row">
         <div class="col-7">
+
+
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label">Nombre</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control"
                     formControlName="nombre"
+                    [class.is-invalid]="validatorControl('nombre')"
                     >
+                    <small *ngIf="validatorControl('nombre')" class="form-text text-danger">Ingrese al menos 5 caracteres</small>
                 </div>
             </div>
+
+
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label">Apellido</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control"
                     formControlName="apellido"
+                    [class.is-invalid]="apellidoNoValido"
                     >
+                    <small *ngIf="apellidoNoValido" class="form-text text-danger">Ingrese el Apellido</small>
                 </div>
             </div>
+
+
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label">Correo</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control"
-                    formControlName="correo">
+                    formControlName="correo"
+                    [class.is-invalid]="correoNoValido">
+                    <small *ngIf="apellidoNoValido" class="form-text text-danger">Igrese el Correo</small>
                 </div>
             </div>
+
+
+            <div class="mb-3 row" formGroupName="direccion">
+                <label class="col-sm-2 col-form-label">Dirección</label>
+                <div class="col-sm-5">
+                    <input type="text"
+                    class="form-control"
+                    placeholder="Distrito"
+                    formControlName="distrito"
+                    [class.is-invalid]="distritoNoValido">
+                    <small *ngIf="distritoNoValido" class="form-text text-danger">Igrese la dirección</small>
+                </div>
+                <div class="col-sm-5">
+                    <input type="text"
+                    class="form-control"
+                    placeholder="Ciudad"
+                    formControlName="ciudad"
+                    [class.is-invalid]="ciudadNoValido">
+                    <small *ngIf="ciudadNoValido" class="form-text text-danger">Igrese la ciudad</small>
+                </div>           
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Pais</label>
+                <div class="col-sm-10">
+                    <select class="form-select"
+                    formControlName="pais"
+                    [class.is-invalid]="paisNovalido">
+                    <option *ngFor="let pais of paises" [ngValue]="pais.codigo"> {{pais.nombre}} </option>
+                    </select>
+                    <small class="text-danger" *ngIf="paisNovalido">* Seleccione una Pais</small>
+                </div> 
+            </div>
+           
+
+            <div class="mb-3 row">
+                <div class="col-sm-10">
+                    
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Pasatiempos</th>
+                                <th>Borrar</th>
+                            </tr>
+                        </thead>
+                        <tbody formArrayName="pasatiempos">
+                            <tr *ngFor="let control of pasatiempos.controls; let i = index">
+                                <td>{{i + 1}}</td>
+                                <td>
+                                    <input class="form-control"
+                                    type="text"
+                                    [formControlName]="i"
+                                    >
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger"(click)="borrarPasatiempo(i)">Borrar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" class="btn btn-primary btn-block w-100 mt-3"
+                    (click)="agregarPasatiempo()"
+                    >+ Agregar</button>
+                </div>
+            </div>
+
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label">&nbsp;</label>
                 <div class="col-sm-10">
@@ -37,7 +115,6 @@
         </div>
     </div>
 </form>
-
 <hr>
 <pre>
     Estado del formulario: {{form.valid}} <br>
