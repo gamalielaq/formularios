@@ -38,6 +38,7 @@ export class RectiveComponent implements OnInit {
     });
     this.crearFormulario();
     this.cargarData();
+    this.cargarListeners();
   }
 
   get pasatiempos() {
@@ -52,6 +53,9 @@ export class RectiveComponent implements OnInit {
   };
   get correoNoValido() {
     return this.form.get('correo')?.invalid && this.form.get('correo')?.touched
+  };
+  get usuarioNoValido() {
+    return this.form.get('usuario')?.invalid && this.form.get('usuario')?.touched
   };
 
   get distritoNoValido() {
@@ -86,6 +90,7 @@ export class RectiveComponent implements OnInit {
        nombre  : ['', [Validators.required,Validators.minLength(5)] ],
        apellido: ['', [Validators.required, this.validadores.noHerrera] ],
        correo  : ['', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{3,3}$'), Validators.required] ],
+       usuario: ['', , this.validadores.existeusuario],
        password1:['', Validators.required],
        password2:['', Validators.required],
        direccion: this.fb.group({
@@ -99,6 +104,18 @@ export class RectiveComponent implements OnInit {
       })
     }
 
+    cargarListeners() {
+      this.form.valueChanges.subscribe(valor => {
+          console.log(valor);
+      })
+      this.form.statusChanges.subscribe(status => {
+        console.log(status);
+      })
+      
+      this.form.get('nombre')?.valueChanges.subscribe(console.log);
+      
+    }
+
     cargarData() {
       // this.form.setValue(
         this.form.reset
@@ -106,11 +123,13 @@ export class RectiveComponent implements OnInit {
           nombre: "Fernando",
           apellido: "Perez",
           correo: "juanperez.96@gmail.com",
+          password1: '123',
+          password2: '123',
           direccion: {
             distrito: "Otario",
             ciudad: "Cascacén"
           },
-          pais: ''
+          pais: 'PE'
         });
 
         ['comer', 'Dormir'].forEach( valor => this.pasatiempos.push( this.fb.control(valor)));

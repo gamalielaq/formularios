@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { Observable } from 'rxjs';
+
+interface ErrorValidate {
+  [s:string]: boolean
+}
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +13,23 @@ export class ValidadoresService {
 
   constructor() { }
 
+  existeusuario(control: FormControl): Promise<any> | Observable<any> { 
+
+    if( !control.value ) { 
+      return Promise.resolve(null);
+    }
+    
+    let promise = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if( control.value === 'strider' ) {
+            resolve({existe: true}) 
+          }else {
+            resolve (null) 
+          }
+        }, 3500);
+    });
+    return promise;
+  }
 
   //Validaciones personalizadas
 
