@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ValidadoresService } from 'src/app/services/validadores.service';
 
 @Component({
   selector: 'app-rective',
@@ -26,7 +27,8 @@ export class RectiveComponent implements OnInit {
   ]
 
   constructor(
-    private fb: FormBuilder  // FormBuilder, es un servicio que cotiene metodos que nos ayuda a crear formularios reactivos facilmente
+    private fb: FormBuilder,  // FormBuilder, es un servicio que cotiene metodos que nos ayuda a crear formularios reactivos facilmente
+    private validadores : ValidadoresService
   ) { }
 
   ngOnInit(): void {
@@ -64,21 +66,36 @@ export class RectiveComponent implements OnInit {
     return this.form.get('pais')?.invalid && this.form.get('pais')?.touched
   };
 
+  get pass1NoValido() {
+    return this.form.get('password1')?.invalid && this.form.get('password1')?.touched
+  };
+  get pass2NoValido() {
+    const pass1  = this.form.get('password1')?.value;
+    const pass2  = this.form.get('password2')?.value;
+
+    return (pass1 == pass2)? false : true;
+  };
+
   validatorControl(parent: string) {
     return this.form.get(parent)?.invalid && this.form.get(parent)?.touched
   };
+  
 
    crearFormulario() {
      this.form = this.fb.group({
        nombre  : ['', [Validators.required,Validators.minLength(5)] ],
-       apellido: ['', [Validators.required] ],
+       apellido: ['', [Validators.required, this.validadores.noHerrera] ],
        correo  : ['', [Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{3,3}$'), Validators.required] ],
+       password1:['', Validators.required],
+       password2:['', Validators.required],
        direccion: this.fb.group({
          distrito: ['', Validators.required],
          ciudad: ['', Validators.required]
         }),
         pais : ['', Validators.required ],
         pasatiempos: this.fb.array([])
+      }, {
+        validators : this.validadores.passwordsIguales('password1', 'password2')
       })
     }
 
@@ -110,7 +127,10 @@ export class RectiveComponent implements OnInit {
 
       guardar() {
         // markAsTouched > controls manuipulados
-    
+        
+        console.log(this.form);
+        
+
         //1° Forma
         
         if (!this.form.valid) {

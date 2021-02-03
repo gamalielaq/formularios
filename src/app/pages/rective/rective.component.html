@@ -35,9 +35,33 @@
                     <input type="text" class="form-control"
                     formControlName="correo"
                     [class.is-invalid]="correoNoValido">
-                    <small *ngIf="apellidoNoValido" class="form-text text-danger">Igrese el Correo</small>
+                    <small *ngIf="correoNoValido" class="form-text text-danger">Igrese el Correo</small>
                 </div>
             </div>
+
+
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Contraseña</label>
+                <div class="col-sm-10">
+                    <input type="text"
+                    class="form-control"
+                    formControlName="password1"
+                    [class.is-invalid]="pass1NoValido"
+                    >
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label class="col-sm-2 col-form-label">Repetir Contraseña</label>
+                <div class="col-sm-10">
+                    <input type="text"
+                    class="form-control"
+                    formControlName="password2"
+                    [class.is-invalid]="pass2NoValido">
+
+                </div>
+            </div>
+
+
 
 
             <div class="mb-3 row" formGroupName="direccion">
